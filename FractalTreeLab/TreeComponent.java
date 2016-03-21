@@ -7,7 +7,8 @@ public class TreeComponent extends JPanel
    private final int PANEL_WIDTH = 400;
    private final int PANEL_HEIGHT = 400;
 
-   private final double branchingAngle = Math.toRadians(20);
+   private final double branchingAngle1 = Math.toRadians(25);
+   private final double branchingAngle2 = Math.toRadians(10);
    private final double fractionLength = .75;
    private final double smallestBranch = 5;
 
@@ -34,12 +35,14 @@ public class TreeComponent extends JPanel
        
        if (order == 1)
        {
-           g.drawLine(startX, startY, startX, startY - (int)length);
+           int endY = startY - (int)length;
+           g.drawLine(startX, startY, startX, endY);
+           drawBranch(order + 1, length, startX, endY, angle, g);
        }
-       else
+       else if (order <= current)
        {
-           double angle1 = angle + branchingAngle;
-           double angle2 = angle - branchingAngle;
+           double angle1 = angle + branchingAngle1;
+           double angle2 = angle - branchingAngle2;
            length*=fractionLength;
           
            endX1 = (int)(startX - length*Math.sin(angle1));
@@ -47,14 +50,11 @@ public class TreeComponent extends JPanel
           
            endX2 = (int)(startX - length*Math.sin(angle2));
            endY2 = (int)(startY - length*Math.cos(angle2)); 
-          
-           if (length > smallestBranch)
-           {
-               g.drawLine((int)startX, (int)startY, endX1, endY1);
-               g.drawLine((int)startX, (int)startY, endX2, endY2);
-               drawBranch(order - 1, length, endX1, endY1, angle1, g);
-               drawBranch(order - 1, length, endX2, endY2, angle2, g);
-           }
+
+           g.drawLine((int)startX, (int)startY, endX1, endY1);
+           g.drawLine((int)startX, (int)startY, endX2, endY2);
+           drawBranch(order + 1, length, endX1, endY1, angle1, g);
+           drawBranch(order + 1, length, endX2, endY2, angle2, g);
        }
    }
    
@@ -67,7 +67,7 @@ public class TreeComponent extends JPanel
       
       g.setColor(Color.blue);
 
-      drawBranch(current, 100, 200, 375, 0, g);
+      drawBranch(1, 85, 250, 375, 0, g);
    }
    
    //-----------------------------------------------------------------
