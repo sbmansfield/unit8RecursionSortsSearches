@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.JPanel;
 import java.awt.geom.Line2D;
+import java.util.Random;
 
 public class TreeComponent extends JPanel
 {
@@ -65,7 +66,13 @@ public class TreeComponent extends JPanel
    {
       super.paintComponent(g);
       
-      g.setColor(Color.blue);
+      Random random = new Random();
+      final float hue = random.nextFloat();
+      // Saturation between 0.1 and 0.3
+      final float saturation = (random.nextInt(2000) + 1000) / 10000f;
+      final float luminance = 0.9f;
+      final Color color = Color.getHSBColor(hue, saturation, luminance);
+      g.setColor(color);
 
       drawBranch(1, 85, 250, 375, 0, g);
    }
